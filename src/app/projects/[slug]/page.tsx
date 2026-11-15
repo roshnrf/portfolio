@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { profile, site } from "@/data/profile";
 import { getProject, getProjects } from "@/lib/content";
+import { jsonLd } from "@/lib/jsonld";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -92,6 +94,22 @@ export default async function ProjectPage({ params }: Props) {
       <div
         className="prose-md mt-10"
         dangerouslySetInnerHTML={{ __html: project.html }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            "@context": "https://schema.org",
+            "@type": "SoftwareSourceCode",
+            name: project.title,
+            description: project.summary,
+            url: `${site.url}/projects/${project.slug}`,
+            codeRepository: project.repo,
+            keywords: project.tags.join(", "),
+            author: { "@type": "Person", name: profile.name, url: site.url },
+          }),
+        }}
       />
 
       <footer className="mt-16 border-t border-line pt-8">

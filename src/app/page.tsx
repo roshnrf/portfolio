@@ -5,10 +5,12 @@ import { Story } from "@/components/Story";
 import {
   otherProjects,
   profile,
+  site,
   skills,
   timeline,
 } from "@/data/profile";
 import { formatDate, getProjects, getUpdates } from "@/lib/content";
+import { jsonLd } from "@/lib/jsonld";
 
 function SectionHeading({ label, title }: { label: string; title: string }) {
   return (
@@ -27,6 +29,25 @@ export default function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: profile.name,
+            url: site.url,
+            description: site.description,
+            email: `mailto:${profile.email}`,
+            jobTitle: "MSc Data Science student",
+            affiliation: { "@type": "CollegeOrUniversity", name: "TU Dortmund University" },
+            alumniOf: { "@type": "CollegeOrUniversity", name: "Vellore Institute of Technology, Chennai" },
+            address: { "@type": "PostalAddress", addressLocality: "Dortmund", addressCountry: "DE" },
+            sameAs: [profile.links.github, profile.links.linkedin, profile.links.medium],
+          }),
+        }}
+      />
+
       {/* ---------- Hero ---------- */}
       <section className="pb-16 pt-16 sm:pt-24">
         <p className="label">{profile.eyebrow}</p>

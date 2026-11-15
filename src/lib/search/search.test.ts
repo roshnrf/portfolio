@@ -216,3 +216,12 @@ describe("bestSentence", () => {
     expect(bestSentence("zzz", text).index).toBe(0);
   });
 });
+
+describe("jsonLd", () => {
+  it("escapes angle brackets so data cannot close the script tag", async () => {
+    const { jsonLd } = await import("../jsonld");
+    const out = jsonLd({ name: "</script><b>x" });
+    expect(out).not.toContain("<");
+    expect(JSON.parse(out)).toEqual({ name: "</script><b>x" });
+  });
+});
