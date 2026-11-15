@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+Personal site for Roshan Abdul Rauof. Next.js (App Router), TypeScript, Tailwind. Fully static: every page is generated at build time from files in this repo.
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build, also type-checks
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Post an update
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Add one file to `content/updates/`, named `YYYY-MM-short-title.md`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```md
+---
+title: Started a working student role at Example GmbH
+date: "2027-02-01"
+tags: [Work]
+---
 
-## Learn More
+Body in Markdown. Links, lists and **bold** all work.
+```
 
-To learn more about Next.js, take a look at the following resources:
+Commit and push. Vercel rebuilds and the update appears on `/updates` and in the "Latest" list on the home page (newest three).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Add or edit a project
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Each project is one file in `content/projects/`. The file name is the URL (`pirs.md` becomes `/projects/pirs`).
 
-## Deploy on Vercel
+| Frontmatter | Meaning |
+| --- | --- |
+| `title`, `tagline`, `summary`, `year` | Shown on the card and the page header |
+| `order` | Position on the home page, lowest first |
+| `metrics` | List of `value` / `label` pairs. The first two show on the card |
+| `tags` | Tech chips |
+| `repo`, `demo` | GitHub link and optional live demo link |
+| `status` | Optional one-line note under the buttons |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Images go in `public/projects/` and are referenced as `/projects/file.png`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Add a blog post
+
+Add a file to `content/writing/` with `title`, `date`, `summary` and `readingTime`. Posts hosted elsewhere (Medium) are listed in `externalPosts` in `src/data/profile.ts`.
+
+## Change personal details
+
+Everything about you lives in `src/data/profile.ts`: headline, availability line, about text, timeline, skills, links. The resume is `public/resume.pdf`; replace the file to update it.
+
+## Deploy
+
+The repo is connected to Vercel. Every push to `main` deploys to production. The site URL is set in `src/data/profile.ts` (`site.url`) and is used for the sitemap and social previews.
