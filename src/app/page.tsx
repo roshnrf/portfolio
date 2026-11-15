@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Ask } from "@/components/Ask";
 import { ProjectCard } from "@/components/ProjectCard";
 import {
   about,
@@ -6,7 +7,6 @@ import {
   otherProjects,
   profile,
   skills,
-  stats,
   timeline,
 } from "@/data/profile";
 import { formatDate, getProjects, getUpdates } from "@/lib/content";
@@ -31,27 +31,28 @@ export default function Home() {
       {/* ---------- Hero ---------- */}
       <section className="pb-16 pt-16 sm:pt-24">
         <p className="label">{profile.eyebrow}</p>
-        <h1 className="mt-5 text-[clamp(2.6rem,7vw,4.75rem)] font-extrabold leading-[1.02] tracking-[-0.03em]">
+        <h1 className="mt-4 text-[clamp(2.1rem,5.2vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.03em]">
           {profile.name}
         </h1>
-        <p className="mt-6 max-w-2xl text-xl leading-snug text-ink sm:text-2xl">
+        <p className="headline mt-3 max-w-3xl text-[clamp(1.5rem,3.6vw,2.4rem)] font-semibold leading-[1.15] tracking-[-0.02em]">
           {profile.headline}
         </p>
-        <p className="mt-4 max-w-2xl leading-relaxed text-ink2">
+        <p className="mt-5 max-w-2xl leading-relaxed text-ink2">
           {profile.intro}
         </p>
-        <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-1.5 text-sm text-ink2">
-          <span
-            aria-hidden="true"
-            className="inline-block h-1.5 w-1.5 rounded-full bg-ok"
-          />
-          {profile.availability}
-        </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/#projects" className="btn btn-primary">
-            See the projects
-          </Link>
+        <div className="mt-8">
+          <Ask />
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-2 text-sm text-ink2">
+            <span
+              aria-hidden="true"
+              className="inline-block h-1.5 w-1.5 rounded-full bg-ok"
+            />
+            {profile.availability}
+          </p>
           <a
             href={profile.links.resume}
             target="_blank"
@@ -64,21 +65,6 @@ export default function Home() {
             Contact
           </Link>
         </div>
-
-        <ul className="mt-14 grid gap-4 sm:grid-cols-3">
-          {stats.map((s) => (
-            <li key={s.label}>
-              <Link href={s.href} className="glass glass-hover block h-full p-5">
-                <span className="block font-mono text-3xl font-medium tracking-tight text-ok">
-                  {s.value}
-                </span>
-                <span className="mt-2 block text-sm leading-snug text-ink2">
-                  {s.label}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
       </section>
 
       {/* ---------- About ---------- */}

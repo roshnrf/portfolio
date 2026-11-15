@@ -44,6 +44,7 @@ export function stripMarkdown(markdown: string): string {
 /** Very light stemmer: enough to match "built"/"build" and plurals. */
 function stem(word: string): string {
   if (word === "built") return "build";
+  if (word === "accurate" || word === "accurately") return "accuracy";
   if (word.length > 5 && word.endsWith("ing")) return word.slice(0, -3);
   if (word.length > 4 && word.endsWith("ed")) return word.slice(0, -2);
   if (word.length > 3 && word.endsWith("s") && !word.endsWith("ss")) {

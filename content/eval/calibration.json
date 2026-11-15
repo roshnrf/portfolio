@@ -6,16 +6,16 @@
   "onTopic": {
     "n": 42,
     "min": 0.377,
-    "p10": 0.454,
+    "p10": 0.432,
     "median": 0.639,
-    "p90": 1.003,
+    "p90": 1.005,
     "max": 1.133
   },
   "offTopic": {
     "n": 40,
     "min": 0.073,
     "p10": 0.111,
-    "median": 0.163,
+    "median": 0.171,
     "p90": 0.368,
     "max": 0.574
   },
@@ -23,7 +23,7 @@
   "refusedOffTopic": 38,
   "rightPageTop1": 35,
   "keywordOnly": {
-    "answeredOnTopic": 42,
+    "answeredOnTopic": 41,
     "refusedOffTopic": 35
   }
 }

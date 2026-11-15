@@ -52,6 +52,9 @@ describe("tokenize", () => {
   it("matches build and built", () => {
     expect(tokenize("built")).toEqual(tokenize("build"));
   });
+  it("matches accurate and accuracy", () => {
+    expect(tokenize("accurate")).toEqual(tokenize("accuracy"));
+  });
   it("keeps numbers and non-Latin letters", () => {
     expect(tokenize("0.38 हिंदी")).toEqual(["0", "38", "हिंदी"]);
   });

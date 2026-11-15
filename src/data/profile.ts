@@ -13,10 +13,9 @@ export const profile = {
   name: "Roshan Abdul Rauof",
   eyebrow: "MSc Data Science · TU Dortmund",
   availability: "Open to working student and internship roles in Germany",
-  headline:
-    "I build machine learning systems that hold up outside a notebook.",
+  headline: "I build AI that knows when it doesn't know.",
   intro:
-    "Speech models scored at the phoneme level, voice agents that refuse to guess, and anomaly pipelines validated on data they never trained on. Now studying Data Science at TU Dortmund.",
+    "A voice agent that will not answer below a calibrated confidence score. A speech scorer whose second check can turn a pass into a fail, never the reverse. I study Data Science at TU Dortmund; before that, real-time audio in C at DRDO.",
   location: "Dortmund, Germany",
   email: "roshanabdlrf03@gmail.com",
   links: {
