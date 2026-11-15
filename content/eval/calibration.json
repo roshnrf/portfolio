@@ -1,0 +1,29 @@
+{
+  "model": "Xenova/all-MiniLM-L6-v2 (q8)",
+  "passages": 53,
+  "threshold": 0.375,
+  "keywordThreshold": 0.295,
+  "onTopic": {
+    "n": 42,
+    "min": 0.377,
+    "p10": 0.454,
+    "median": 0.639,
+    "p90": 1.003,
+    "max": 1.133
+  },
+  "offTopic": {
+    "n": 40,
+    "min": 0.073,
+    "p10": 0.111,
+    "median": 0.163,
+    "p90": 0.368,
+    "max": 0.574
+  },
+  "answeredOnTopic": 42,
+  "refusedOffTopic": 38,
+  "rightPageTop1": 35,
+  "keywordOnly": {
+    "answeredOnTopic": 42,
+    "refusedOffTopic": 35
+  }
+}

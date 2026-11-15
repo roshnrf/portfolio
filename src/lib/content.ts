@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
+import { slugify } from "./search/text";
 
 const ROOT = path.join(process.cwd(), "content");
 
@@ -43,6 +44,10 @@ function render(markdown: string): string {
   const html = marked.parse(markdown, { async: false, gfm: true });
   // Wide tables scroll inside their own box instead of the page.
   return html
+    .replace(
+      /<h2>(.*?)<\/h2>/g,
+      (_, inner: string) => `<h2 id="${slugify(inner)}">${inner}</h2>`,
+    )
     .replace(/<table>/g, '<div class="table-wrap"><table>')
     .replace(/<\/table>/g, "</table></div>")
     .replace(/<img /g, '<img loading="lazy" decoding="async" ');
@@ -57,8 +62,22 @@ function readDir(dir: string) {
     .map((file) => {
       const raw = fs.readFileSync(path.join(full, file), "utf8");
       const { data, content } = matter(raw);
-      return { slug: file.replace(/\.md$/, ""), data, html: render(content) };
+      return {
+        slug: file.replace(/\.md$/, ""),
+        data,
+        markdown: content,
+        html: render(content),
+      };
     });
+}
+
+/** Raw Markdown and frontmatter for a content folder, for the search index. */
+export function readRaw(dir: "projects" | "updates" | "writing") {
+  return readDir(dir).map(({ slug, data, markdown }) => ({
+    slug,
+    data,
+    markdown,
+  }));
 }
 
 /** Frontmatter dates may parse as Date objects; normalise to YYYY-MM-DD. */
