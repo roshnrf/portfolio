@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { OPEN_PALETTE_EVENT } from "@/components/CommandPalette";
 
 const LINKS = [
   { href: "/#about", label: "About" },
@@ -67,6 +68,16 @@ export function Nav() {
             </a>
           </li>
         </ul>
+
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}
+          aria-label="Open command palette"
+          className="ml-auto mr-2 flex h-11 items-center gap-2 rounded-full border border-line px-3.5 font-mono text-xs text-ink2 hover:text-ink md:order-last md:ml-2 md:mr-0 md:h-9"
+        >
+          <span aria-hidden="true">⌕</span>
+          <kbd className="hidden sm:inline">Ctrl K</kbd>
+        </button>
 
         <button
           type="button"

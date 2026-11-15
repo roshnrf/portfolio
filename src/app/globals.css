@@ -316,3 +316,20 @@ body {
     animation: none;
   }
 }
+
+/* ---------- v2: command palette ---------- */
+.palette {
+  width: min(36rem, calc(100vw - 2rem));
+  margin: 12vh auto auto;
+  padding: 0;
+  color: var(--color-ink);
+  background: #0b0b0e;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+.palette::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}

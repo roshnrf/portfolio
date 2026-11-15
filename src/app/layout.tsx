@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { CommandPalette, type PaletteItem } from "@/components/CommandPalette";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { site } from "@/data/profile";
+import { profile, site } from "@/data/profile";
+import { getProjects } from "@/lib/content";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -21,6 +23,9 @@ export const metadata: Metadata = {
     description: site.description,
   },
   twitter: { card: "summary_large_image" },
+  alternates: {
+    types: { "application/rss+xml": "/updates/feed.xml" },
+  },
 };
 
 export const viewport: Viewport = {
@@ -31,6 +36,24 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const paletteItems: PaletteItem[] = [
+    { label: "Home", hint: "Page", href: "/" },
+    ...getProjects().map((p) => ({
+      label: p.title,
+      hint: `Project · ${p.tagline}`,
+      href: `/projects/${p.slug}`,
+    })),
+    { label: "Journey", hint: "Education and experience", href: "/#journey" },
+    { label: "Skills", hint: "Section", href: "/#skills" },
+    { label: "Updates", hint: "Page", href: "/updates" },
+    { label: "Writing", hint: "Page", href: "/writing" },
+    { label: "ML Playground", hint: "Interactive", href: "/playground" },
+    { label: "Contact", hint: "Section", href: "/#contact" },
+    { label: "Resume (PDF)", hint: "File", href: profile.links.resume, external: true },
+    { label: "GitHub", hint: "External", href: profile.links.github, external: true },
+    { label: "LinkedIn", hint: "External", href: profile.links.linkedin, external: true },
+  ];
+
   return (
     <html lang="en" className={`${inter.variable} ${jb.variable}`}>
       <body className="min-h-screen">
@@ -50,6 +73,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <CommandPalette items={paletteItems} />
       </body>
     </html>
   );

@@ -19,6 +19,7 @@ import {
   type SearchResult,
 } from "@/lib/search/engine";
 import { bestSentence } from "@/lib/search/rank";
+import { ASK_EVENT, ASK_STORAGE_KEY } from "@/components/CommandPalette";
 
 const STAGES = ["query", "embed", "retrieve", "gate", "answer"] as const;
 const STAGE_MS = 170;
@@ -111,6 +112,34 @@ export function Ask() {
       cancelled = true;
     };
   }, [engine.model]);
+
+  // Questions handed over from the command palette.
+  const runRef = useRef(run);
+  useEffect(() => {
+    runRef.current = run;
+  });
+  useEffect(() => {
+    const ask = (text: string) => {
+      setQuery(text);
+      runRef.current(text, true);
+      window.scrollTo({ top: 0 });
+    };
+    const onAsk = (event: Event) => ask((event as CustomEvent<string>).detail);
+    window.addEventListener(ASK_EVENT, onAsk);
+    const stored = sessionStorage.getItem(ASK_STORAGE_KEY);
+    let timer = 0;
+    if (stored) {
+      // Cleared inside the timer so a re-run of this effect still sees it.
+      timer = window.setTimeout(() => {
+        sessionStorage.removeItem(ASK_STORAGE_KEY);
+        ask(stored);
+      }, 0);
+    }
+    return () => {
+      window.removeEventListener(ASK_EVENT, onAsk);
+      clearTimeout(timer);
+    };
+  }, []);
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
