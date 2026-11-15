@@ -9,6 +9,7 @@ npm install
 npm run dev      # http://localhost:3000
 npm run build    # production build, also type-checks
 npm run lint
+npm test         # unit tests for the search logic
 ```
 
 ## Post an update
@@ -46,10 +47,29 @@ Images go in `public/projects/` and are referenced as `/projects/file.png`.
 
 Add a file to `content/writing/` with `title`, `date`, `summary` and `readingTime`. Posts hosted elsewhere (Medium) are listed in `externalPosts` in `src/data/profile.ts`.
 
+## The assistant in the hero
+
+The "ask about my work" box answers from this site's own content, in the visitor's browser. No server and no API key.
+
+- `scripts/build-index.ts` runs before `dev` and `build`. It splits every project, post, update and the profile data into passages, embeds them with all-MiniLM-L6-v2 and writes `public/search-index.json` (generated, not committed). New Markdown is picked up automatically.
+- `public/embed-worker.js` embeds the question in the browser with the same model. Until it has loaded, keyword matching answers.
+- The confidence gate lives in `content/eval/calibration.json`. After changing a lot of content, re-run it:
+
+```bash
+npm run index && npm run calibrate
+```
+
+  It scores the questions in `content/eval/questions.json` (ones the site can answer, ones it cannot) and picks the threshold between the two groups. Add questions there when you add a project.
+- If you upgrade `@huggingface/transformers`, change the version in `public/embed-worker.js` to match.
+
+## The scroll story
+
+The five chapters on the home page are the `story` array in `src/data/profile.ts` (text and links). The visuals are in `src/components/Story.tsx`.
+
 ## Change personal details
 
 Everything about you lives in `src/data/profile.ts`: headline, availability line, about text, timeline, skills, links. The resume is `public/resume.pdf`; replace the file to update it.
 
 ## Deploy
 
-The repo is connected to Vercel. Every push to `main` deploys to production. The site URL is set in `src/data/profile.ts` (`site.url`) and is used for the sitemap and social previews.
+The repo is connected to Vercel. Every push to `main` deploys to production; any other branch gets its own preview URL. The site URL is set in `src/data/profile.ts` (`site.url`) and is used for the sitemap and social previews.

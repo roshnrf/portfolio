@@ -17,6 +17,19 @@
 - [x] Scheme Sahayak demo videos (Hindi, Malayalam) embedded on its project page
 - [x] Current CV saved to `public/resume.pdf`; Feynn Labs spelling and B.Tech period (2022 – 2026) corrected
 
+## Version 2 (branch `v2`, not merged)
+- [x] Search core: chunking, keyword + semantic hybrid ranking, calibrated gate, 36 unit tests
+- [x] Hero: live "ask about my work" pipeline, runs in the browser
+- [x] Scroll story: five chapters with code-drawn scenes, replaces the About block
+- [x] Gate demo on the Scheme Sahayak page
+- [x] Ctrl+K command palette
+- [x] llms.txt, JSON-LD, RSS feed
+- [x] Verified locally: tests, lint, production build (18 static pages), desktop and 375px, no overflow, no hydration errors
+- [ ] Roshan reviews v2; merge into `main` only on his say
+- [ ] After the first Vercel build of v2: confirm the index is generated there
+
+Known limits of the assistant: 80 of 82 calibration questions handled correctly ("What time is it?" and "How old are you?" get answered); scores in the browser differ from the build by about 0.01 to 0.02, so questions right at the gate can flip.
+
 ## Waiting on Roshan
 - [ ] Decide whether the public `resume.pdf` should carry the phone number (it currently does)
 - [ ] Confirm the MSc update date (2026-10-01)
