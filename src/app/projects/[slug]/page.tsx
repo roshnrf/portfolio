@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { GateDemo } from "@/components/GateDemo";
 import { profile, site } from "@/data/profile";
 import { getProject, getProjects } from "@/lib/content";
 import { jsonLd } from "@/lib/jsonld";
@@ -95,6 +96,8 @@ export default async function ProjectPage({ params }: Props) {
         className="prose-md mt-10"
         dangerouslySetInnerHTML={{ __html: project.html }}
       />
+
+      {slug === "scheme-sahayak" && <GateDemo />}
 
       <script
         type="application/ld+json"
