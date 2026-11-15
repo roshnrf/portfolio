@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { Ask } from "@/components/Ask";
 import { ProjectCard } from "@/components/ProjectCard";
+import { Story } from "@/components/Story";
 import {
-  about,
-  focus,
   otherProjects,
   profile,
   skills,
@@ -67,31 +66,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- About ---------- */}
-      <section id="about" className="py-16">
-        <SectionHeading label="01 / about" title="What I work on" />
-        <div className="grid gap-10 lg:grid-cols-[1.25fr_1fr]">
-          <div className="space-y-4 leading-relaxed text-ink2">
-            {about.map((p) => (
-              <p key={p}>{p}</p>
-            ))}
-          </div>
-          <ul className="space-y-3">
-            {focus.map((f) => (
-              <li key={f.title} className="glass p-5">
-                <h3 className="font-semibold">{f.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink2">
-                  {f.body}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {/* ---------- Story ---------- */}
+      <section id="about" className="py-10">
+        <SectionHeading label="01 / the work" title="Five things I built, and what each one taught me" />
+        <Story />
       </section>
 
       {/* ---------- Projects ---------- */}
       <section id="projects" className="py-16">
-        <SectionHeading label="02 / projects" title="Selected work" />
+        <SectionHeading label="02 / projects" title="All write-ups" />
         <div className="grid gap-5 md:grid-cols-2 md:[&>*:last-child:nth-child(odd)]:col-span-2">
           {projects.map((p) => (
             <ProjectCard key={p.slug} project={p} />

@@ -198,3 +198,71 @@ export const externalPosts = [
     href: "https://medium.com/@rosh003/freshstock-ai-revolutionizing-inventory-management-for-small-grocery-stores-a52eff64420a",
   },
 ];
+
+export type StoryScene = "phonemes" | "gate" | "mixer" | "insiders" | "now";
+
+/** The scroll story on the home page: one chapter per piece of work. */
+export const story: {
+  scene: StoryScene;
+  kicker: string;
+  title: string;
+  body: string[];
+  href: string;
+  link: string;
+}[] = [
+  {
+    scene: "phonemes",
+    kicker: "01 · Speech",
+    title: "A model that listens the way a therapist does",
+    body: [
+      "A general speech model \"corrects\" a child's attempt toward the nearest real word, which makes wrong attempts look right. For a child with apraxia of speech, that hides the one thing therapy needs: which sound went wrong.",
+      "I fine-tuned Whisper with LoRA, training 0.73% of its parameters, and scored every attempt phoneme by phoneme. On 30 held-out words accuracy went from 80% to 96%. The gate that decides praise now passes 3% of wrong attempts instead of 28%. It also rejects 46% of correct ones, which is the next thing to fix.",
+    ],
+    href: "/projects/articuplay",
+    link: "ArticuPlay write-up",
+  },
+  {
+    scene: "gate",
+    kicker: "02 · Retrieval",
+    title: "A voice agent that refuses to guess",
+    body: [
+      "An assistant that confidently invents an eligibility rule for a welfare scheme is worse than no assistant.",
+      "So retrieval has to clear a gate before the language model is ever called. I measured where genuine scheme questions scored (0.40 to 0.50) and where unrelated ones did (0.27 to 0.37), and put the gate at 0.38, in the gap. Below it the assistant says it is not certain. It answers in Hindi and Malayalam in about 1.0 to 1.5 seconds, without a GPU.",
+    ],
+    href: "/projects/scheme-sahayak",
+    link: "Scheme Sahayak write-up and demo videos",
+  },
+  {
+    scene: "mixer",
+    kicker: "03 · Real-time systems",
+    title: "Sixteen voices, one thread",
+    body: [
+      "At DRDO I built real-time voice conferencing in C on an established VoIP stack. Afterwards, on my own time, I wrote the from-scratch version to learn what it takes: SIP, RTP, a codec, a jitter buffer and a mixer on a single epoll thread.",
+      "The first mixer hard-clipped the sum. It passed with 3 callers and failed at 12, when the sum ran past the 16-bit range and callers heard distortion on their own voice. A per-listener limiter fixed it. Sixteen callers now mix in 147 µs per 20 ms frame.",
+    ],
+    href: "/projects/sipconf",
+    link: "sipconf write-up",
+  },
+  {
+    scene: "insiders",
+    kicker: "04 · Anomaly detection",
+    title: "Five insiders among four thousand",
+    body: [
+      "An insider has legitimate access, so no single action looks wrong. What changes is behaviour over time.",
+      "PIRS scores that drift with three detectors and forecasts it seven days ahead. On CERT r6.2 it reached 0.8973 ROC-AUC and ranked three of the five labelled insiders in the top 5% of risk. On real logs from LANL, with no retraining, 0.7429. Five positive labels is a thin basis for any metric, and the write-up says so.",
+    ],
+    href: "/projects/pirs",
+    link: "PIRS write-up and live dashboard",
+  },
+  {
+    scene: "now",
+    kicker: "05 · Now",
+    title: "Dortmund",
+    body: [
+      "I started the MSc in Data Science at TU Dortmund in October 2026.",
+      "I am looking for a working student role or internship in Germany where models meet real input: speech, retrieval, evaluation, or the systems underneath them.",
+    ],
+    href: "/#contact",
+    link: "Get in touch",
+  },
+];
