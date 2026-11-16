@@ -249,7 +249,7 @@ export function Ask() {
                 {result.sources.map((source) => (
                   <div
                     key={source.source}
-                    className="grid grid-cols-[minmax(0,9rem)_minmax(0,1fr)_2.75rem] items-center gap-3 text-xs sm:grid-cols-[minmax(0,13rem)_minmax(0,1fr)_2.75rem]"
+                    className="grid grid-cols-[minmax(0,6.5rem)_minmax(0,1fr)_2.75rem] items-center gap-3 text-xs sm:grid-cols-[minmax(0,13rem)_minmax(0,1fr)_2.75rem]"
                   >
                     <span className="truncate text-ink2">{source.source}</span>
                     <span className="relative h-2 rounded-full bg-white/5">
@@ -342,8 +342,8 @@ export function Ask() {
               {calibration.threshold.toFixed(2)} answers{" "}
               {calibration.answeredOnTopic} of {calibration.onTopic.n} and
               refuses {calibration.refusedOffTopic} of {calibration.offTopic.n}.
-              It is not perfect: short questions that share a common word with
-              a page can still slip through.
+              Those are the questions the gate was tuned on, so expect it to be
+              a little less clean on new ones.
             </p>
           </div>
         </details>

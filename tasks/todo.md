@@ -25,10 +25,15 @@
 - [x] Ctrl+K command palette
 - [x] llms.txt, JSON-LD, RSS feed
 - [x] Verified locally: tests, lint, production build (18 static pages), desktop and 375px, no overflow, no hydration errors
-- [ ] Roshan reviews v2; merge into `main` only on his say
+- [x] Story reordered to the order the projects were built (StoryWeaver, PIRS, Scheme Sahayak, ArticuPlay, Dortmund); sipconf is in the project list only
+- [x] Headline and intro rewritten to cover all the work; chapters lead with results
+- [x] Assistant: generic words ("time", "old") no longer count as matches; tables are quoted as one sentence so numbers show
+- [x] Merged into `main` locally on 2026-11-16 at Roshan's request ("finish it and tell me how to push")
 - [ ] After the first Vercel build of v2: confirm the index is generated there
 
-Known limits of the assistant: 80 of 82 calibration questions handled correctly ("What time is it?" and "How old are you?" get answered); scores in the browser differ from the build by about 0.01 to 0.02, so questions right at the gate can flip.
+Known limits of the assistant: it handles all 82 calibration questions, but the gate was tuned on those same questions, so that is not a measure of how it does on new ones. Scores in the browser differ from the build by about 0.01 to 0.02, so questions right at the gate can flip. It quotes passages; it does not write answers.
+
+Ideas not built: hand-written FAQ answers (needs Roshan's input), an unseen test set, voice input, LLM-written answers.
 
 ## Waiting on Roshan
 - [ ] Decide whether the public `resume.pdf` should carry the phone number (it currently does)

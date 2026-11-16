@@ -3,7 +3,7 @@ title: Scheme Sahayak
 tagline: Voice AI · RAG
 summary: A voice assistant that answers questions about Indian government schemes in Hindi and Malayalam, and says "I'm not sure" instead of guessing when retrieval is weak.
 year: "2026"
-order: 1
+order: 2
 status: Runs locally. Demo recordings in Hindi and Malayalam are further down this page.
 tags: [Pipecat, Sarvam AI, LangChain, FAISS, bge-m3, Silero VAD, Playwright, Python]
 metrics:

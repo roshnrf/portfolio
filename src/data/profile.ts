@@ -6,7 +6,7 @@ export const site = {
   name: "Roshan Abdul Rauof",
   title: "Roshan Abdul Rauof · Data Science & ML",
   description:
-    "MSc Data Science student at TU Dortmund. I build speech and voice AI, applied ML pipelines, and the backend systems that ship them.",
+    "MSc Data Science student at TU Dortmund. I build machine learning systems end to end: anomaly detection, speech and voice AI, LLM retrieval, and the real-time code underneath.",
 };
 
 export const profile = {

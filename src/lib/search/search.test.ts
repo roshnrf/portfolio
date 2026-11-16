@@ -36,9 +36,9 @@ describe("stripMarkdown", () => {
     expect(out).toContain("Before");
     expect(out).toContain("After");
   });
-  it("turns table rows into sentences and drops the separator", () => {
+  it("turns a table into one sentence and drops the separator", () => {
     const md = "| Detector | Weight |\n| --- | --- |\n| Isolation Forest | 0.50 |";
-    expect(stripMarkdown(md)).toBe("Detector: Weight.\nIsolation Forest: 0.50.");
+    expect(stripMarkdown(md)).toBe("Detector: Weight; Isolation Forest: 0.50.");
   });
   it("strips list markers and headings", () => {
     expect(stripMarkdown("## Title\n- one\n2. two")).toBe("Title\none\ntwo");
@@ -57,6 +57,10 @@ describe("tokenize", () => {
   });
   it("keeps numbers and non-Latin letters", () => {
     expect(tokenize("0.38 हिंदी")).toEqual(["0", "38", "हिंदी"]);
+  });
+  it("ignores generic words that match any page", () => {
+    expect(tokenize("What time is it?")).toEqual([]);
+    expect(tokenize("How old are you?")).toEqual([]);
   });
   it("returns nothing for stop words only", () => {
     expect(tokenize("what is your")).toEqual([]);
@@ -223,5 +227,13 @@ describe("jsonLd", () => {
     const out = jsonLd({ name: "</script><b>x" });
     expect(out).not.toContain("<");
     expect(JSON.parse(out)).toEqual({ name: "</script><b>x" });
+  });
+});
+
+describe("stemming", () => {
+  it("matches studies, studied and studying", () => {
+    expect(tokenize("studies")).toEqual(["study"]);
+    expect(tokenize("studied")).toEqual(["study"]);
+    expect(tokenize("studying")).toEqual(["study"]);
   });
 });

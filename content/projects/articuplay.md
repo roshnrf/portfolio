@@ -3,7 +3,7 @@ title: ArticuPlay
 tagline: Speech ML · Fine-tuning
 summary: A speech-therapy app for children with Childhood Apraxia of Speech. A LoRA-tuned Whisper scores each attempt phoneme by phoneme and names the type of error.
 year: "2026"
-order: 2
+order: 1
 status: Not publicly deployed. Trained on the UltraSuite corpus, which is licensed for non-commercial use.
 tags: [faster-whisper, LoRA, PyTorch, FastAPI, PostgreSQL, Supabase, React, TypeScript, espeak-ng]
 metrics:
