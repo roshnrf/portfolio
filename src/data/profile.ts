@@ -13,9 +13,9 @@ export const profile = {
   name: "Roshan Abdul Rauof",
   eyebrow: "MSc Data Science · TU Dortmund",
   availability: "Open to working student and internship roles in Germany",
-  headline: "I build AI that knows when it doesn't know.",
+  headline: "Raw data in, working system out. I build every layer in between.",
   intro:
-    "A voice agent that will not answer below a calibrated confidence score. A speech scorer whose second check can turn a pass into a fail, never the reverse. I study Data Science at TU Dortmund; before that, real-time audio in C at DRDO.",
+    "An insider-threat pipeline with a live dashboard. A speech model fine-tuned to 96% phoneme accuracy. A Hindi and Malayalam voice agent that answers in about a second. A 16-caller conference server in C. A demand forecaster for grocery stores. Ask about any of them below.",
   location: "Dortmund, Germany",
   email: "roshanabdlrf03@gmail.com",
   links: {
@@ -199,9 +199,12 @@ export const externalPosts = [
   },
 ];
 
-export type StoryScene = "phonemes" | "gate" | "mixer" | "insiders" | "now";
+export type StoryScene = "pipeline" | "insiders" | "gate" | "phonemes" | "now";
 
-/** The scroll story on the home page: one chapter per piece of work. */
+/**
+ * The scroll story on the home page: the projects in the order they were
+ * built, each leading to the next.
+ */
 export const story: {
   scene: StoryScene;
   kicker: string;
@@ -211,56 +214,56 @@ export const story: {
   link: string;
 }[] = [
   {
-    scene: "phonemes",
-    kicker: "01 · Speech",
-    title: "A model that listens the way a therapist does",
+    scene: "pipeline",
+    kicker: "Nov 2025 · Where it started",
+    title: "A story written for one child",
     body: [
-      "A general speech model \"corrects\" a child's attempt toward the nearest real word, which makes wrong attempts look right. For a child with apraxia of speech, that hides the one thing therapy needs: which sound went wrong.",
-      "I fine-tuned Whisper with LoRA, training 0.73% of its parameters, and scored every attempt phoneme by phoneme. On 30 held-out words accuracy went from 80% to 96%. The gate that decides praise now passes 3% of wrong attempts instead of 28%. It also rejects 46% of correct ones, which is the next thing to fix.",
+      "Four-year-olds do not repeat word lists willingly. StoryWeaver has the child describe a picture, uses Whisper and Gemini to find the words they struggle with, and writes a short story built around those words.",
+      "In a one-week pilot, two children completed every session and their practice accuracy rose from 72% to 87%. It also left me with a question: when the speech model quietly corrects a mispronounced word, the error disappears. I came back to that a year later.",
     ],
-    href: "/projects/articuplay",
-    link: "ArticuPlay write-up",
-  },
-  {
-    scene: "gate",
-    kicker: "02 · Retrieval",
-    title: "A voice agent that refuses to guess",
-    body: [
-      "An assistant that confidently invents an eligibility rule for a welfare scheme is worse than no assistant.",
-      "So retrieval has to clear a gate before the language model is ever called. I measured where genuine scheme questions scored (0.40 to 0.50) and where unrelated ones did (0.27 to 0.37), and put the gate at 0.38, in the gap. Below it the assistant says it is not certain. It answers in Hindi and Malayalam in about 1.0 to 1.5 seconds, without a GPU.",
-    ],
-    href: "/projects/scheme-sahayak",
-    link: "Scheme Sahayak write-up and demo videos",
-  },
-  {
-    scene: "mixer",
-    kicker: "03 · Real-time systems",
-    title: "Sixteen voices, one thread",
-    body: [
-      "At DRDO I built real-time voice conferencing in C on an established VoIP stack. Afterwards, on my own time, I wrote the from-scratch version to learn what it takes: SIP, RTP, a codec, a jitter buffer and a mixer on a single epoll thread.",
-      "The first mixer hard-clipped the sum. It passed with 3 callers and failed at 12, when the sum ran past the 16-bit range and callers heard distortion on their own voice. A per-listener limiter fixed it. Sixteen callers now mix in 147 µs per 20 ms frame.",
-    ],
-    href: "/projects/sipconf",
-    link: "sipconf write-up",
+    href: "/projects/storyweaver",
+    link: "StoryWeaver write-up",
   },
   {
     scene: "insiders",
-    kicker: "04 · Anomaly detection",
+    kicker: "Apr 2026 · Capstone",
     title: "Five insiders among four thousand",
     body: [
       "An insider has legitimate access, so no single action looks wrong. What changes is behaviour over time.",
-      "PIRS scores that drift with three detectors and forecasts it seven days ahead. On CERT r6.2 it reached 0.8973 ROC-AUC and ranked three of the five labelled insiders in the top 5% of risk. On real logs from LANL, with no retraining, 0.7429. Five positive labels is a thin basis for any metric, and the write-up says so.",
+      "PIRS scores that drift with three detectors and forecasts it seven days ahead. On CERT r6.2 it reached 0.8973 ROC-AUC and ranked three of the five labelled insiders in the top 5% of risk. On real logs from LANL, with no retraining, it held at 0.7429. It runs as a live dashboard across all 4,000 users.",
     ],
     href: "/projects/pirs",
     link: "PIRS write-up and live dashboard",
   },
   {
+    scene: "gate",
+    kicker: "Jul 2026 · Voice AI",
+    title: "A voice agent that answers in a second, in two languages",
+    body: [
+      "Scheme Sahayak answers spoken questions about Indian government schemes in Hindi and Malayalam, in about 1.0 to 1.5 seconds without a GPU.",
+      "Every answer is grounded in retrieved scheme text. I measured where genuine questions scored (0.40 to 0.50) and where unrelated ones did (0.27 to 0.37), and set a gate at 0.38 between them, so the agent only speaks when it has the source to back it.",
+    ],
+    href: "/projects/scheme-sahayak",
+    link: "Scheme Sahayak write-up and demo videos",
+  },
+  {
+    scene: "phonemes",
+    kicker: "Sep 2026 · Back to the first idea",
+    title: "Hearing the sound a transcript hides",
+    body: [
+      "StoryWeaver could tell that a word was wrong, not which sound. ArticuPlay answers that. I fine-tuned Whisper with LoRA, training 0.73% of its parameters, and scored every attempt phoneme by phoneme.",
+      "On 30 held-out words, phoneme accuracy went from 80% to 96%, and wrong attempts that were praised by mistake fell from 28% to 3%. It is built for children with apraxia of speech, where knowing the exact sound is the whole point of therapy.",
+    ],
+    href: "/projects/articuplay",
+    link: "ArticuPlay write-up",
+  },
+  {
     scene: "now",
-    kicker: "05 · Now",
+    kicker: "Oct 2026 · Now",
     title: "Dortmund",
     body: [
       "I started the MSc in Data Science at TU Dortmund in October 2026.",
-      "I am looking for a working student role or internship in Germany where models meet real input: speech, retrieval, evaluation, or the systems underneath them.",
+      "I am looking for a working student role or internship in Germany: machine learning, data science, speech and language, or the systems underneath them.",
     ],
     href: "/#contact",
     link: "Get in touch",

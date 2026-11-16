@@ -46,7 +46,7 @@ function useScrollProgress<T extends HTMLElement>() {
   return [ref, progress] as const;
 }
 
-/* ---------- Scene 1: phoneme alignment ---------- */
+/* ---------- ArticuPlay: phoneme alignment ---------- */
 
 const SAID = ["w", "æ", "b", "ɪ", "t"];
 const TARGET = ["ɹ", "æ", "b", "ɪ", "t"];
@@ -147,7 +147,7 @@ function PhonemeScene({ p }: { p: number }) {
   );
 }
 
-/* ---------- Scene 2: the confidence gate ---------- */
+/* ---------- Scheme Sahayak: the confidence gate ---------- */
 
 function GateScene({ p }: { p: number }) {
   const lo = 0.2;
@@ -180,98 +180,78 @@ function GateScene({ p }: { p: number }) {
         }`}
       >
         {answers
-          ? "Above the gate: the scheme text goes to the language model."
-          : "Below the gate: “I am not certain.” The language model is never called."}
+          ? "Above the gate: the answer is spoken, grounded in the scheme text."
+          : "Below the gate: no source to back an answer, so the agent says so."}
       </p>
     </div>
   );
 }
 
-/* ---------- Scene 3: mixing callers, clip vs limiter ---------- */
+/* ---------- StoryWeaver: the five-step loop ---------- */
 
-const FULL_SCALE = 32767;
-const LIMIT = 30000;
-const SAMPLES = 160;
+const STEPS = [
+  ["Describe", "the child talks about a picture"],
+  ["Transcribe", "Whisper turns speech into text"],
+  ["Analyse", "Gemini finds the difficult words"],
+  ["Generate", "a short story built around them"],
+  ["Practise", "read it aloud, line by line"],
+] as const;
 
-function MixerScene({ p }: { p: number }) {
-  const [mode, setMode] = useState<"clip" | "limiter">("clip");
-  const callers = 3 + Math.round(ease(p) * 13);
-
-  const sum = Array.from({ length: SAMPLES }, (_, i) => {
-    let total = 0;
-    for (let c = 0; c < callers; c++) {
-      // Tones of different pitch that all peak together mid-frame: the worst
-      // case for a mixer, and the one that broke the first version.
-      total += 3400 * Math.cos((i / SAMPLES - 0.5) * Math.PI * 2 * (2 + c * 0.45));
-    }
-    return total;
-  });
-  const peak = Math.max(...sum.map(Math.abs));
-  const gain = mode === "limiter" && peak > LIMIT ? LIMIT / peak : 1;
-  const out = sum.map((s) =>
-    mode === "clip" ? Math.max(-FULL_SCALE, Math.min(FULL_SCALE, s)) : s * gain,
-  );
-  const clipped = mode === "clip" ? sum.filter((s) => Math.abs(s) > FULL_SCALE).length : 0;
-
-  const scale = 46 / Math.max(peak, FULL_SCALE * 1.15);
-  const path = (values: number[]) =>
-    values
-      // Rounded so server and client render byte-identical paths.
-      .map(
-        (v, i) =>
-          `${i === 0 ? "M" : "L"}${((i / (SAMPLES - 1)) * 400).toFixed(1)},${(60 - v * scale).toFixed(1)}`,
-      )
-      .join(" ");
-  const railY = FULL_SCALE * scale;
-
+function PipelineScene({ p }: { p: number }) {
+  const lit = Math.round(ease(p / 0.7) * STEPS.length);
+  const grown = ease((p - 0.55) / 0.45);
   return (
     <div>
-      <div className="flex items-center justify-between gap-3">
-        <p className="font-mono text-xs text-ink2">
-          <span className="text-lg tabular-nums text-ink">{callers}</span> callers
-          talking
-        </p>
-        <div role="group" aria-label="Mixer mode" className="flex rounded-lg border border-line p-0.5 text-xs">
-          {(["clip", "limiter"] as const).map((m) => (
-            <button
-              key={m}
-              type="button"
-              aria-pressed={mode === m}
-              onClick={() => setMode(m)}
-              className={`cursor-pointer rounded-md px-2.5 py-1 transition-colors ${
-                mode === m ? "bg-accent text-white" : "text-ink2 hover:text-ink"
-              }`}
+      <ol className="space-y-2">
+        {STEPS.map(([name, detail], i) => (
+          <li
+            key={name}
+            className={`flex items-center gap-3 rounded-lg border px-3 py-2 transition-colors duration-300 ${
+              i < lit ? "border-accent/50 bg-accent/10" : "border-line"
+            }`}
+          >
+            <span
+              className={`font-mono text-xs ${i < lit ? "text-accent-soft" : "text-ink3"}`}
             >
-              {m === "clip" ? "Hard clip" : "Limiter"}
-            </button>
-          ))}
-        </div>
+              {i + 1}
+            </span>
+            <span
+              className={`text-sm font-medium ${i < lit ? "text-ink" : "text-ink3"}`}
+            >
+              {name}
+            </span>
+            <span className="ml-auto text-right text-xs text-ink3">{detail}</span>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-5 space-y-2">
+        <p className="text-xs text-ink3">practice accuracy in the pilot</p>
+        {[
+          { label: "Session 1", value: 72, scale: 1 },
+          { label: "Session 6", value: 87, scale: grown },
+        ].map(({ label, value, scale }) => (
+          <div
+            key={label}
+            className="grid grid-cols-[4.5rem_minmax(0,1fr)_2.5rem] items-center gap-3 text-xs"
+          >
+            <span className="text-ink2">{label}</span>
+            <span className="h-2 rounded-full bg-white/5">
+              <span
+                className="block h-full rounded-full bg-ok"
+                style={{ width: `${value * scale}%` }}
+              />
+            </span>
+            <span className="text-right font-mono tabular-nums text-ink2">
+              {value}%
+            </span>
+          </div>
+        ))}
       </div>
-      <svg viewBox="0 0 400 120" className="mt-3 w-full" role="img" aria-label="Waveform of the mixed audio against the 16-bit range">
-        <line x1="0" x2="400" y1={60 - railY} y2={60 - railY} strokeDasharray="4 4" className="stroke-warn/60" />
-        <line x1="0" x2="400" y1={60 + railY} y2={60 + railY} strokeDasharray="4 4" className="stroke-warn/60" />
-        <text x="4" y={60 - railY - 4} className="fill-warn font-mono text-[8px]">16-bit limit</text>
-        <path d={path(sum)} fill="none" className="stroke-ink3/50" strokeWidth="1" />
-        <path d={path(out)} fill="none" className={clipped ? "stroke-warn" : "stroke-ok"} strokeWidth="1.6" />
-      </svg>
-      <p className={`mt-2 text-sm ${clipped ? "text-warn" : "text-ok"}`}>
-        {mode === "clip"
-          ? clipped
-            ? `${Math.round((clipped / SAMPLES) * 100)}% of samples clipped: flat tops, audible distortion.`
-            : "The sum still fits. Hard clipping looks fine here, which is why 3-caller tests passed."
-          : gain < 1
-            ? `Frame scaled to ${Math.round(gain * 100)}% so the peak stays under 30,000. Shape preserved.`
-            : "Under the limit, so the limiter leaves the frame alone."}
-      </p>
-      <p className="mt-1 text-[0.7rem] text-ink3">
-        Simulated tones, same arithmetic as the mixer. Scroll adds callers;
-        switch modes to compare.
-      </p>
     </div>
   );
 }
 
-/* ---------- Scene 4: 4,000 users, five insiders ---------- */
+/* ---------- PIRS: 4,000 users, five insiders ---------- */
 
 const COLS = 80;
 const ROWS = 50;
@@ -364,7 +344,7 @@ function InsiderScene({ p }: { p: number }) {
   );
 }
 
-/* ---------- Scene 5: now ---------- */
+/* ---------- Now ---------- */
 
 function NowScene() {
   return (
@@ -392,7 +372,7 @@ function NowScene() {
 function Scene({ scene, p }: { scene: StoryScene; p: number }) {
   if (scene === "phonemes") return <PhonemeScene p={p} />;
   if (scene === "gate") return <GateScene p={p} />;
-  if (scene === "mixer") return <MixerScene p={p} />;
+  if (scene === "pipeline") return <PipelineScene p={p} />;
   if (scene === "insiders") return <InsiderScene p={p} />;
   return <NowScene />;
 }

@@ -89,7 +89,7 @@ export default function Home() {
 
       {/* ---------- Story ---------- */}
       <section id="about" className="py-10">
-        <SectionHeading label="01 / the work" title="Five things I built, and what each one taught me" />
+        <SectionHeading label="01 / the story" title="Four projects, in the order I built them" />
         <Story />
       </section>
 
