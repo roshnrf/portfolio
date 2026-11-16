@@ -21,8 +21,21 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: site.title,
     description: site.description,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Roshan Abdul Rauof · MSc Data Science at TU Dortmund",
+      },
+    ],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+    images: ["/opengraph-image"],
+  },
   alternates: {
     types: { "application/rss+xml": "/updates/feed.xml" },
   },
